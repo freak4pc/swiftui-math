@@ -65,6 +65,26 @@ When proposing an enhancement:
 
 3. Build and run the tests to verify your setup
 
+### Regenerating Font Metrics
+
+`Sources/SwiftUIMath/mathFonts.bundle` ships each math font as an `.otf` file alongside a `.plist`
+holding the metrics extracted from the font's OpenType `MATH` table. Only maintainers adding or
+updating a bundled font need to regenerate these; consumers of the library never run this step.
+
+`math_table_to_plist.py`, at the repository root, performs the conversion. It requires
+[fontTools](https://github.com/fonttools/fonttools):
+
+```bash
+python3 -m pip install fonttools
+python3 math_table_to_plist.py \
+  Sources/SwiftUIMath/mathFonts.bundle/MyFont.otf \
+  Sources/SwiftUIMath/mathFonts.bundle/MyFont.plist
+```
+
+The script deliberately lives outside `mathFonts.bundle`. `Package.swift` copies that directory
+verbatim into the built resource bundle, and App Store Connect rejects unsigned executable code
+shipped inside an embedded bundle.
+
 ## Style Guides
 
 ### Git Commit Messages

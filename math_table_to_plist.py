@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/env python3
 import plistlib
 import sys
 from fontTools.ttLib import TTFont
